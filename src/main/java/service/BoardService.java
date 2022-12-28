@@ -10,7 +10,7 @@ import vo.Board;
 public class BoardService {
 	private BoardDao boardDao;
 	
-	public ArrayList<Board> getBoardListByPage(int currentPage, int rowPerPage) { // 
+	public ArrayList<Board> getBoardListByPage(String word, int currentPage, int rowPerPage) { // 
 		/*
 		 * 1) Connection 생성
 		 * 2) currentPage와 rowPerPage를 가공하여 beginRow와 endRow를 만들어서 Controller로 넘겨준다. 서비스레이어가 하는일임
@@ -27,7 +27,7 @@ public class BoardService {
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
-			list = boardDao.selectBoardListByPage(conn, beginRow, endRow); // 여기서 만들어서 Controller로 넘겨준다.
+			list = boardDao.selectBoardListByPage(conn, word, beginRow, endRow); // 여기서 만들어서 Controller로 넘겨준다.
 			conn.commit(); // DBUtil.class에서 conn.setAutoCommit(false);
 		} catch(Exception e) {
 			try {

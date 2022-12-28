@@ -10,19 +10,47 @@ import vo.Board;
 public class BoardDao {
 	// 나중에 검색 추가
 	// SELECT board_no boardNo, board_title boardTitle FROM board WHERE board_content LIKE ? ORDER BY board_no ASC LIMIT ?, ?";
-	public ArrayList<Board> selectBoardListByPage(Connection conn, int beginRow, int endRow) throws Exception {
+	public ArrayList<Board> selectBoardListByPage(Connection conn, String word, int beginRow, int endRow) throws Exception {
 		ArrayList<Board> list = new ArrayList<Board>();
+		String sql = null;
+		PreparedStatement stmt = null;
 		// 쿼리문 작성
+		if(word == null) {
+			sql = "SELECT board_no boardNo, board_title boardTitle, member_id memberId, createdate"
+					+ " FROM (SELECT rownum rnum, board_no, board_title, member_id, createdate" // rnum을 고정시키기 위해서(where절을 쓰기위해서)
+					+ " 	FROM (SELECT board_no, board_title, member_id, createdate" // 정렬해서 rnum을 붙이기위해서
+					+ "				FROM board ORDER BY to_number(board_no) ASC))"
+					+ " WHERE rnum BETWEEN ? AND ?"; // WHERE rnum이 >=? AND  <=?
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, beginRow);
+			stmt.setInt(2, endRow);
+			word = "";
+		} else if(word != null) {
+			sql = "SELECT board_no boardNo, board_title boardTitle, member_id memberId, createdate"
+					+ " FROM (SELECT rownum rnum, board_no, board_title, member_id, createdate" // rnum을 고정시키기 위해서(where절을 쓰기위해서)
+					+ " 	FROM (SELECT board_no, board_title, member_id, createdate" // 정렬해서 rnum을 붙이기위해서
+					+ "				FROM board WHERE board_content like ? ORDER BY to_number(board_no) asc))"
+					+ " WHERE rnum BETWEEN ? AND ?"; // WHERE rnum이 >=? AND  <=?
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%"+word+"%");
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, endRow);
+		}
+		/*
 		String sql = "SELECT board_no boardNo, board_title boardTitle, member_id memberId, createdate"
 				+ " FROM (SELECT rownum rnum, board_no, board_title, member_id, createdate" // rnum을 고정시키기 위해서(where절을 쓰기위해서)
 				+ " 	FROM (SELECT board_no, board_title, member_id, createdate" // 정렬해서 rnum을 붙이기위해서
-				+ "				FROM board ORDER BY board_no asc))"
+				+ "				FROM board WHERE board_content like ? ORDER BY board_no asc))"
 				+ " WHERE rnum BETWEEN ? AND ?"; // WHERE rnum이 >=? AND  <=?
+		*/
+		/*
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, endRow);
+		stmt.setString(1, "%"+word+"%");
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, endRow);
+		*/
 		// 쿼리 실행
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {

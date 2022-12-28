@@ -20,7 +20,7 @@ public class BoardListController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String msg = request.getParameter("msg");
-		
+		String word = request.getParameter("word");
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		// 비로그인시 접근불가
@@ -38,12 +38,13 @@ public class BoardListController extends HttpServlet {
 		}
 		
 		this.boardService = new BoardService();
-		ArrayList<Board> list = boardService.getBoardListByPage(currentPage, rowPerPage);
+		ArrayList<Board> list = boardService.getBoardListByPage(word, currentPage, rowPerPage);
 		request.setAttribute("boardList", list);
 		request.setAttribute("currentPage", currentPage); // view에서 필요
 		request.setAttribute("rowPerPage", rowPerPage); // view에서 필요
 		request.setAttribute("loginMember", loginMember);
 		request.setAttribute("msg", msg);
+		request.setAttribute("word", word);
 		
 		/*
 		 * VIEW 메뉴구성

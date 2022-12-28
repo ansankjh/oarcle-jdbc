@@ -17,16 +17,16 @@
 	</head>
 	<body>
 		<h1>BOARD LIST</h1>
-		<div>
-			<label for="word">내용 검색</label>
-			<input type="text" name="word" id="word" value=""> <!-- value에 word를 입력하여 a태그로 보낸 word값을 출력한다(다음페이지에도 word값 자동출력) -->
-			<button type="submit">검색</button>
-		</div>
 		${msg}
 		<c:if test="${loginMember != null}">
 			<a href="${pageContext.request.contextPath}/board/addBoard">글입력</a>
 		</c:if>
 		<form action="${pageContext.request.contextPath}/board/boardList" method="get" id="pageForm">
+			<div>
+				<label for="word">내용 검색</label>
+				<input type="text" name="word" id="word" value=""> <!-- value에 word를 입력하여 a태그로 보낸 word값을 출력한다(다음페이지에도 word값 자동출력) -->
+				<button type="submit">검색</button>
+			</div>
 			<select name="rowPerPage" id="rowPerPage">
 				<c:if test="${rowPerPage == 10}">
 					<option value="10" selected="selected">10</option>
@@ -62,8 +62,19 @@
 			</c:forEach>
 		</table>
 		<div>
-			<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
-			<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
+			<c:if test="${word == ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
+			</c:if>
+			<c:if test="${word != ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}">이전</a>
+			</c:if>
+			${currentPage}
+			<c:if test="${word == ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
+			</c:if>
+			<c:if test="${word != ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}">다음</a>
+			</c:if>
 			<a href="${pageContext.request.contextPath}/home">뒤로</a>
 		</div>
 	</body>
