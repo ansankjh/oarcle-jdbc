@@ -38,7 +38,5 @@ public class RemoveBoardController extends HttpServlet {
 			String msg = URLEncoder.encode("게시글의 주인이아닙니다.", "utf-8");
 			response.sendRedirect(request.getContextPath()+"/board/boardList?msg="+msg);
 		}
-		
-		
 	}
 }

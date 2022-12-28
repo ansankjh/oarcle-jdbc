@@ -66,6 +66,7 @@ public class BoardDao {
 		return list;
 	}
 	
+	
 	// BoardOneController.java
 	public Board selectBoardOne(Connection conn, int boardNo) throws Exception {
 		Board board = null;

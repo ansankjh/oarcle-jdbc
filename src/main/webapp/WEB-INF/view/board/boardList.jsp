@@ -17,6 +17,7 @@
 	</head>
 	<body>
 		<h1>BOARD LIST</h1>
+		
 		${msg}
 		<c:if test="${loginMember != null}">
 			<a href="${pageContext.request.contextPath}/board/addBoard">글입력</a>
@@ -76,6 +77,7 @@
 				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}">다음</a>
 			</c:if>
 			<a href="${pageContext.request.contextPath}/home">뒤로</a>
+			
 		</div>
 	</body>
 </html>

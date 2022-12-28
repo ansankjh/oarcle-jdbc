@@ -45,6 +45,8 @@ public class BoardService {
 		}
 		return list;
 	}
+	
+	
 	// BoardOneController.java
 	public Board getBoardOne(int boardNo) {
 		// dao 초기화&공강확보

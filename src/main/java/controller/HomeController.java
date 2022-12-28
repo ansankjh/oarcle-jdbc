@@ -34,5 +34,4 @@ public class HomeController extends HttpServlet {
 		
 		request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
 	}
-
 }
