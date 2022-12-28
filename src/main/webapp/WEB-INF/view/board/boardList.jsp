@@ -18,13 +18,9 @@
 	<body>
 		<h1>BOARD LIST</h1>
 		<c:if test="${loginMember != null}">
-			<a href="${pageContext.request.contextPath}/AddBoardFormController">글입력</a>
+			<a href="${pageContext.request.contextPath}/board/addBoard">글입력</a>
 		</c:if>
-		<c:if test="${loginMember == null}">
-			<a href="${pageContext.request.contextPath}/LoginFormController">로그인</a>
-		</c:if>
-		
-		<form action="${pageContext.request.contextPath}/BoardListController" method="get" id="pageForm">
+		<form action="${pageContext.request.contextPath}/board/boardList" method="get" id="pageForm">
 			<select name="rowPerPage" id="rowPerPage">
 				<c:if test="${rowPerPage == 10}">
 					<option value="10" selected="selected">10</option>
@@ -52,15 +48,15 @@
 			<c:forEach var="b" items="${boardList}">
 				<tr>
 					<td>${b.boardNo}</td>
-					<td><a href="${pageContext.request.contextPath}/BoardOneController?boardNo=${b.boardNo}">${b.boardTitle}</a></td>
+					<td><a href="${pageContext.request.contextPath}/board/boardOne?boardNo=${b.boardNo}">${b.boardTitle}</a></td>
 					<td>${b.createdate}</td>
 				</tr>
 			</c:forEach>
 		</table>
 		<div>
-			<a href="${pageContext.request.contextPath}/BoardListController?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
-			<a href="${pageContext.request.contextPath}/BoardListController?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
-			<a href="${pageContext.request.contextPath}/HomeController">뒤로</a>
+			<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
+			<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
+			<a href="${pageContext.request.contextPath}/home">뒤로</a>
 		</div>
 	</body>
 </html>

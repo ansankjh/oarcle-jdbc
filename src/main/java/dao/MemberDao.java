@@ -41,7 +41,7 @@ public class MemberDao {
 		// 객체 초기화
 		Member resultMember = null;
 		// 쿼리문 작성
-		String sql = "SELECT member_id memberId, member_pw memberPw, member_name memberName FROM member WHERE member_id = ? AND member_pw = ?";
+		String sql = "SELECT member_id memberId, member_name memberName FROM member WHERE member_id = ? AND member_pw = ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -52,7 +52,6 @@ public class MemberDao {
 		if(rs.next()) {
 			resultMember = new Member();
 			resultMember.setMemberId(rs.getString("memberId"));
-			resultMember.setMemberPw(rs.getString("memberPw"));
 			resultMember.setMemberName(rs.getString("memberName"));
 		}
 		stmt.close();
@@ -78,7 +77,72 @@ public class MemberDao {
 		stmt.close();
 		return row;
 	}
-
+	
+	// memberOne.java
+	public Member selectMember(Connection conn, String memberId) throws Exception {
+		// 객체 초기화
+		Member member = null;
+		// 쿼리문 작성
+		String sql = "SELECT member_id memberId, member_name memberName, createdate FROM member WHERE member_id = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, memberId);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			member = new Member();
+			member.setMemberId(rs.getString("memberId"));
+			member.setMemberName(rs.getString("memberName"));
+			member.setCreatedate(rs.getString("createdate"));
+		}
+		
+		stmt.close();
+		rs.close();
+		return member;
+	}
+	
+	// 회원정보 수정 modifyMember
+	public int updateMember(Connection conn, Member member) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "UPDATE member SET member_name = ?, updatedate = sysdate WHERE member_id = ? AND member_pw = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, member.getMemberName());
+		stmt.setString(2, member.getMemberId());
+		stmt.setString(3, member.getMemberPw());
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
+	
+	// 비밀번호수정 modifyMemberPw
+	public int updateMemberPw(Connection conn, String updatePw, Member member) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "UPDATE member SET member_pw=? WHERE member_id=? AND member_pw=?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, updatePw);
+		stmt.setString(2, member.getMemberId());
+		stmt.setString(3, member.getMemberPw());
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
+	
+	
+	
+	
 	
 	
 	

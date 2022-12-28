@@ -20,9 +20,9 @@
 		</table>
 		<!-- 나중에 로그인이 안되어있으면 이 버튼들은 안뜨게끔? -->
 		<c:if test="${loginMember != null}">
-			<a href="${pageContext.request.contextPath}/ModifyBoardFormController?boardNo=${board.boardNo}">수정</a>
-			<a href="${pageContext.request.contextPath}/RemoveBoardController?boardNo=${board.boardNo}">삭제</a>
+			<a href="${pageContext.request.contextPath}/board/modifyBoard?boardNo=${board.boardNo}">수정</a>
+			<a href="${pageContext.request.contextPath}/board/removeBoard?boardNo=${board.boardNo}">삭제</a>
 		</c:if>
-		<a href="${pageContext.request.contextPath}/BoardListController">뒤로</a>
+		<a href="${pageContext.request.contextPath}/board/boardList">뒤로</a>
 	</body>
 </html>

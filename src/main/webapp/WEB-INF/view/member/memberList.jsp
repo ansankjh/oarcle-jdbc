@@ -51,6 +51,6 @@
 		</table>
 		<a href="${pageContext.request.contextPath}/MemberListController?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">이전</a>
 		<a href="${pageContext.request.contextPath}/MemberListController?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">다음</a>
-		<a href="${pageContext.request.contextPath}/HomeController">뒤로</a>
+		<a href="${pageContext.request.contextPath}/home">뒤로</a>
 	</body>
 </html>

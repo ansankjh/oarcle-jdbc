@@ -12,20 +12,27 @@ import javax.servlet.http.HttpSession;
 import vo.Member;
 
 /**
- * Servlet implementation class AddMemberFormController
+ * Servlet implementation class ModifyMemberPwController
  */
-@WebServlet("/AddMemberFormController")
-public class AddMemberFormController extends HttpServlet {
+@WebServlet("/member/modifyMemberPw")
+public class ModifyMemberPwController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 로그인상태면 Home으로
+		// 비로그인시 접근불가
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
-		if(loginMember != null) {
-			response.sendRedirect(request.getContextPath()+"/HomeController");
+		if(loginMember == null) {
+			response.sendRedirect(request.getContextPath()+"/member/login");
 			return;
 		}
-		
-		request.getRequestDispatcher("/WEB-INF/view/addMemberForm.jsp").forward(request, response);
+		// 로그인정보 보내기
+		request.setAttribute("loginMember", loginMember);
+		request.getRequestDispatcher("/WEB-INF/view/member/modifyMemberPw.jsp").forward(request, response);
 	}
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
 }

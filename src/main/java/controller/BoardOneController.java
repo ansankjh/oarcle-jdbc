@@ -16,12 +16,21 @@ import vo.Member;
 /**
  * Servlet implementation class BoardOneController
  */
-@WebServlet("/BoardOneController")
+@WebServlet("/board/boardOne")
 public class BoardOneController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		 * -> board/boardOne
+		 * 글수정,글삭제(로그인멤버 == 글쓴멤버) 본인의 글만 수정,삭제 가능
+		 */
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
+		// 비로그인시 접근불가
+		if(loginMember == null) {
+			response.sendRedirect(request.getContextPath()+"/member/login");
+			return;
+		}
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 		// System.out.println(boardNo);
 		
@@ -33,7 +42,7 @@ public class BoardOneController extends HttpServlet {
 		request.setAttribute("board", board);
 		request.setAttribute("loginMember", loginMember);
 		
-		request.getRequestDispatcher("/WEB-INF/view/boardOne.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/board/boardOne.jsp").forward(request, response);
 	}
 
 }

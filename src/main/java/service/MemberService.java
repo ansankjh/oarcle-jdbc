@@ -121,6 +121,115 @@ public class MemberService {
 		return row;
 	}
 	
+	// MemberOneController.java
+	public Member getMemberOne(String memberId) {
+		// dao 초기화&공간확보
+		memberDao = new MemberDao();
+		// 객체 초기화
+		Member member = null;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 오토커밋 끄기
+			conn.setAutoCommit(false);
+			// dao 호출
+			member = memberDao.selectMember(conn, memberId);
+			// 커밋하기
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return member;
+	}
+	
+	// 회원정보 수정 modifyMember
+	public int updateMember(Member member) {
+		// dao 초기화&공간확보
+		memberDao = new MemberDao();
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 커밋끄기
+			conn.setAutoCommit(false);
+			// dao호출
+			row = memberDao.updateMember(conn, member);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 수정실패시 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			// 수정성공 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	
+	// 비밀번호 수정 modifyMemberPw
+	public int updateMemberPw(String updatePw, Member member) {
+		// dao초기화&공간확보
+		memberDao = new MemberDao();
+		// 객체초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 커밋끄기
+			conn.setAutoCommit(false);
+			// dao호출
+			row = memberDao.updateMemberPw(conn, updatePw, member);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 수정실패 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			// 수정성공 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

@@ -14,7 +14,7 @@ import service.BoardService;
 import vo.Board;
 import vo.Member;
 
-@WebServlet("/BoardListController")
+@WebServlet("/board/boardList")
 public class BoardListController extends HttpServlet {
 	private BoardService boardService;
 	
@@ -22,7 +22,11 @@ public class BoardListController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
-		// 누구나 올수 있는 페이지라 로그인 유효성 검사 불필요
+		// 비로그인시 접근불가
+		if(loginMember == null) {
+			response.sendRedirect(request.getContextPath()+"/member/login");
+			return;
+		}
 		int currentPage = 1;
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -39,6 +43,11 @@ public class BoardListController extends HttpServlet {
 		request.setAttribute("rowPerPage", rowPerPage); // view에서 필요
 		request.setAttribute("loginMember", loginMember);
 		
-		request.getRequestDispatcher("/WEB-INF/view/boardList.jsp").forward(request, response);
+		/*
+		 * VIEW 메뉴구성
+		 * 글입력
+		 * 상세보기(수정,삭제)
+		 */
+		request.getRequestDispatcher("/WEB-INF/view/board/boardList.jsp").forward(request, response);
 	}
 }

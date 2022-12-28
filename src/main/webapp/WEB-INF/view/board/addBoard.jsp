@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1>글입력</h1>
-		<form action="${pageContext.request.contextPath}/AddBoardActionController" method="post">
+		<form action="${pageContext.request.contextPath}/board/addBoard" method="post">
 			<table border="1">
 				<tr>
 					<th>boardTitle</th>

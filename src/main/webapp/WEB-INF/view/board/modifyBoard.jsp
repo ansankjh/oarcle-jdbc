@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1>MODIFY BOARD FORM</h1>
-		<form action="${pageContext.request.contextPath}/ModifyBoardActionController" method="post">
+		<form action="${pageContext.request.contextPath}/board/modifyBoard" method="post">
 			<table border="1">
 				<tr>
 					<th>boardNo</th>
