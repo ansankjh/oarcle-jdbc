@@ -140,6 +140,23 @@ public class MemberDao {
 		return row;
 	}
 	
+	// 회원탈퇴 RemoveMemberController
+	public int deleteMember(Connection conn, Member member) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 작성
+		String sql = "DELETE FROM member WHERE member_id=? AND member_pw=?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, member.getMemberId());
+		stmt.setString(2, member.getMemberPw());
+		// 쿼리 실행
+		row = stmt.executeUpdate();
+		
+		stmt.close();
+		return row;
+	}
 	
 	
 	

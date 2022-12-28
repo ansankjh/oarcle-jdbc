@@ -9,13 +9,14 @@ import vo.Board;
 
 public class BoardDao {
 	// 나중에 검색 추가
+	// SELECT board_no boardNo, board_title boardTitle FROM board WHERE board_content LIKE ? ORDER BY board_no ASC LIMIT ?, ?";
 	public ArrayList<Board> selectBoardListByPage(Connection conn, int beginRow, int endRow) throws Exception {
 		ArrayList<Board> list = new ArrayList<Board>();
 		// 쿼리문 작성
-		String sql = "SELECT board_no boardNo, board_title boardTitle, createdate"
-				+ " FROM (SELECT rownum rnum, board_no, board_title, createdate" // rnum을 고정시키기 위해서(where절을 쓰기위해서)
-				+ " 	FROM (SELECT board_no, board_title, createdate" // 정렬해서 rnum을 붙이기위해서
-				+ "				FROM board ORDER BY board_no DESC))"
+		String sql = "SELECT board_no boardNo, board_title boardTitle, member_id memberId, createdate"
+				+ " FROM (SELECT rownum rnum, board_no, board_title, member_id, createdate" // rnum을 고정시키기 위해서(where절을 쓰기위해서)
+				+ " 	FROM (SELECT board_no, board_title, member_id, createdate" // 정렬해서 rnum을 붙이기위해서
+				+ "				FROM board ORDER BY board_no asc))"
 				+ " WHERE rnum BETWEEN ? AND ?"; // WHERE rnum이 >=? AND  <=?
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -28,6 +29,7 @@ public class BoardDao {
 			Board b = new Board();
 			b.setBoardNo(rs.getInt("boardNo"));
 			b.setBoardTitle(rs.getString("boardTitle"));
+			b.setMemberId(rs.getString("memberId"));
 			b.setCreatedate(rs.getString("createdate"));
 			list.add(b);
 		}
@@ -123,15 +125,16 @@ public class BoardDao {
 	}
 	
 	// RemoveBoardController.java
-	public int deleteBoard(Connection conn, int boardNo) throws Exception {
+	public int deleteBoard(Connection conn, int boardNo, String memberId) throws Exception {
 		// 객체 초기화
 		int row = 0;
 		// 쿼리문 작성
-		String sql = "DELETE FROM board WHERE board_no = ?";
+		String sql = "DELETE FROM board WHERE board_no = ? AND member_id=?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
 		stmt.setInt(1, boardNo);
+		stmt.setString(2, memberId);
 		// 쿼리 실행
 		row = stmt.executeUpdate();
 				

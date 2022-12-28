@@ -181,7 +181,7 @@ public class BoardService {
 	}
 	
 	// RemoveBoardController.java
-	public int deleteBoard(int boardNo) {
+	public int deleteBoard(int boardNo, String memberId) {
 		// dao 초기화&공간 확보
 		boardDao = new BoardDao();
 		// 객체 초기화
@@ -195,7 +195,7 @@ public class BoardService {
 			// 오토커밋 끄기
 			conn.setAutoCommit(false);
 			// dao 호출
-			row = boardDao.deleteBoard(conn, boardNo);
+			row = boardDao.deleteBoard(conn, boardNo, memberId);
 			// 커밋하기
 			conn.commit();
 		} catch(Exception e) {

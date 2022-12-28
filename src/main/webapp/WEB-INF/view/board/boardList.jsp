@@ -17,6 +17,12 @@
 	</head>
 	<body>
 		<h1>BOARD LIST</h1>
+		<div>
+			<label for="word">내용 검색</label>
+			<input type="text" name="word" id="word" value=""> <!-- value에 word를 입력하여 a태그로 보낸 word값을 출력한다(다음페이지에도 word값 자동출력) -->
+			<button type="submit">검색</button>
+		</div>
+		${msg}
 		<c:if test="${loginMember != null}">
 			<a href="${pageContext.request.contextPath}/board/addBoard">글입력</a>
 		</c:if>
@@ -43,12 +49,14 @@
 			<tr>
 				<th>boardNo</th>
 				<th>boardTitle</th>
+				<th>memberId</th>
 				<th>createdate</th>
 			</tr>
 			<c:forEach var="b" items="${boardList}">
 				<tr>
 					<td>${b.boardNo}</td>
 					<td><a href="${pageContext.request.contextPath}/board/boardOne?boardNo=${b.boardNo}">${b.boardTitle}</a></td>
+					<td>${b.memberId}</td>
 					<td>${b.createdate}</td>
 				</tr>
 			</c:forEach>

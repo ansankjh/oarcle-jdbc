@@ -226,6 +226,42 @@ public class MemberService {
 		return row;
 	}
 	
+	// 회원탈퇴 RemoveMemberController
+	public int deleteMember(Member member) {
+		// dao초기화&공간확보
+		memberDao = new MemberDao();
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 커밋끄기
+			conn.setAutoCommit(false);
+			// dao호출
+			row = memberDao.deleteMember(conn, member);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			// 실패시 롤백
+			try {
+				conn.rollback();
+			} catch(Exception e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			// 성공시 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return row;
+	}
 	
 	
 	

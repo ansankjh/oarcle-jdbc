@@ -19,6 +19,7 @@ public class BoardListController extends HttpServlet {
 	private BoardService boardService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String msg = request.getParameter("msg");
 		
 		HttpSession session = request.getSession();
 		Member loginMember = (Member)session.getAttribute("loginMember");
@@ -42,6 +43,7 @@ public class BoardListController extends HttpServlet {
 		request.setAttribute("currentPage", currentPage); // view에서 필요
 		request.setAttribute("rowPerPage", rowPerPage); // view에서 필요
 		request.setAttribute("loginMember", loginMember);
+		request.setAttribute("msg", msg);
 		
 		/*
 		 * VIEW 메뉴구성
