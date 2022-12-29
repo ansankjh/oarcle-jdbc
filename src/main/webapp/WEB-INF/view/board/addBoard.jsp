@@ -41,7 +41,6 @@
 				$('#content').blur(function() {
 					if($('#content').val().length < 1) {
 						$('#contentMsg').text('내용을 입력해주세요.');
-						$('#content').focus();
 					} else {
 						$('#contentMsg').text('');
 					}

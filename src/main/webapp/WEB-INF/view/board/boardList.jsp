@@ -88,7 +88,7 @@
 		<form action="${pageContext.request.contextPath}/board/boardList" method="get" id="pageForm">
 			<div>
 				<label for="word">내용 검색</label>
-				<input type="text" name="word" id="word" value=""> <!-- value에 word를 입력하여 a태그로 보낸 word값을 출력한다(다음페이지에도 word값 자동출력) -->
+				<input type="text" name="word" id="word" value="${word}"> <!-- value에 word를 입력하여 a태그로 보낸 word값을 출력한다(다음페이지에도 word값 자동출력) -->
 				<button type="submit">검색</button>
 			</div>
 			<select class="po0" name="rowPerPage" id="rowPerPage">

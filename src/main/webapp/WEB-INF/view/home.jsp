@@ -77,7 +77,7 @@
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Masthead Subheading-->
-                <p class="masthead-subheading font-weight-light mb-0">게시판</p>
+                <p class="masthead-subheading font-weight-light mb-0">오라클을 이용한 게시판및멤버 CRUD</p>
             </div>
         </header>
 	</body>
