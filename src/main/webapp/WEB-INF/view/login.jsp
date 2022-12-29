@@ -43,7 +43,9 @@
 				$('#pw').blur(function() {
 					if($('#pw').val() == '' && $('#id').val() != '') {
 						$('#pwMsg').text('비밀번호를 입력해주세요.');
-					} 
+					} else {
+						$('#pwMsg').text('');
+					}
 				});
 			});
 		</script>
@@ -69,7 +71,7 @@
 		<div class="container">
 			<!-- Contact Section Heading-->
 			<h1 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="margin-top:120px;">로그인</h1>
-			${msg}
+			
 			<!-- Icon Divider-->
 			<div class="divider-custom">
 				<div class="divider-custom-line"></div>
@@ -92,6 +94,9 @@
 					        <span class="msg" id="pwMsg"></span>
 					        <label for="pw">PassWord</label>
 					    </div>
+					    <c:if test="${msg != null}">
+					    	<span class="msg">${msg}</span>
+					    </c:if>
 					    <!-- Submit Button-->
 					    <div align="center">
 					    	<button class="btn btn-primary btn-xl" id="submitButton" type="submit">로그인</button>

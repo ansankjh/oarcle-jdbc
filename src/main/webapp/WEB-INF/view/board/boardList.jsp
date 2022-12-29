@@ -20,6 +20,12 @@
 				top : -30px;
 				left : 1350px;
 			}
+			
+			.po2 {
+				position : relative;
+				top : -30px;
+				left : 1350px;
+			}
 		</style>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -78,7 +84,6 @@
 		<h1 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="margin-top:150px;">
 			<a href="${pageContext.request.contextPath}/board/boardList" style="text-decoration-line : none;">게시글 목록</a>
 		</h1>
-		${msg}
 		<br>
 		<form action="${pageContext.request.contextPath}/board/boardList" method="get" id="pageForm">
 			<div>

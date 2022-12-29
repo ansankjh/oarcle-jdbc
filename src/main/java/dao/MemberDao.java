@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import util.DBUtil;
 import vo.Member;
 
 public class MemberDao {
@@ -122,7 +123,7 @@ public class MemberDao {
 	}
 	
 	// 비밀번호수정 modifyMemberPw
-	public int updateMemberPw(Connection conn, String updatePw, Member member) throws Exception {
+	public int updateMemberPw(Connection conn, String updatePw, String memberId, String memberPw) throws Exception {
 		// 객체 초기화
 		int row = 0;
 		// 쿼리문 작성
@@ -131,8 +132,8 @@ public class MemberDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
 		stmt.setString(1, updatePw);
-		stmt.setString(2, member.getMemberId());
-		stmt.setString(3, member.getMemberPw());
+		stmt.setString(2, memberId);
+		stmt.setString(3, memberPw);
 		// 쿼리 실행
 		row = stmt.executeUpdate();
 		
@@ -158,10 +159,78 @@ public class MemberDao {
 		return row;
 	}
 	
+	// 회원가입시 아이디 중복검사
+	public Boolean memberCk(Connection conn, String memberId) throws Exception {
+		// 객체 초기화
+		boolean result = false;
+		// 쿼리문 작성
+		String sql = "SELECT member_id memberId FROM MEMBER WHERE member_id = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, memberId);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			return true;
+		}
+		return result;
+	}
 	
+	// 회원가입시 닉네임 중복검사
+	public Boolean memberNameCk(Connection conn, String memberName) throws Exception {
+		// 객체 초기화
+		boolean result = false;
+		// 쿼리문 작성
+		String sql = "SELECT member_name memberName FROM MEMBER WHERE member_name = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, memberName);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			return true;
+		}
+		return result;
+	}
 	
+	// 닉네임 수정시 중복검사
+	public Boolean updateMemberNameCk(Connection conn, String memberName) throws Exception {
+		// 객체 초기화
+		boolean result = false;
+		// 쿼리문 작성
+		String sql = "SELECT member_name memberName FROM MEMBER WHERE member_name = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, memberName);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			return true;
+		}
+		return result;
+	}
 	
-	
+	// 기존 비밀번호 중복 방지
+	public Boolean updatePwCk(Connection conn, String memberId, String updatePw) throws Exception {
+		// 객체 초기화
+		boolean result = false;
+		// 쿼리문 작성
+		String sql = "SELECT member_pw FROM MEMBER WHERE member_id = ? AND member_pw = ?";
+		// 쿼리 객체 생성
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		// 쿼리문 ?값 지정
+		stmt.setString(1, memberId);
+		stmt.setString(2, updatePw);
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			return true;
+		}
+		return result;
+	}
 	
 	
 	

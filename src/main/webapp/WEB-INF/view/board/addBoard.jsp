@@ -46,6 +46,16 @@
 						$('#contentMsg').text('');
 					}
 				});
+				
+				$('#back').click(function() {
+					var result = confirm('이 페이지에서 나가시겠습니까?');
+					if(result) {
+						
+					} else {
+						return false;
+					}
+				});
+				
 			});
 		</script>
 	</head>
@@ -60,7 +70,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/board/boardList">글 입력 취소</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/board/boardList" id='back'>글 입력 취소</a></li>
                     </ul>
                 </div>
             </div>

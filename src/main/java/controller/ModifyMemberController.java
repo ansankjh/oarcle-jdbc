@@ -30,7 +30,8 @@ public class ModifyMemberController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/member/login");
 			return;
 		}
-		
+		String msg = request.getParameter("msg");
+		session.setAttribute("msg", msg);
 		// view에 로그인정보 보내기
 		request.setAttribute("loginMember", loginMember);
 		request.getRequestDispatcher("/WEB-INF/view/member/modifyMember.jsp").forward(request, response);
@@ -55,13 +56,15 @@ public class ModifyMemberController extends HttpServlet {
 		
 		// 메서드 호출
 		this.memberService = new MemberService();
-		int row = memberService.updateMember(member);
 		
-		if(row == 1) {
-			System.out.println("수정완료");
-			response.sendRedirect(request.getContextPath()+"/member/memberOne");
+		boolean result = memberService.updateMemberNameCk(memberName);
+		
+		if(result == true) {
+			String msg = URLEncoder.encode("닉네임 중복", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/modifyMember?msg="+msg);
 		} else {
-			System.out.println("수정실패");
+			int row = memberService.updateMember(member);
+			System.out.println("수정완료");
 			response.sendRedirect(request.getContextPath()+"/member/memberOne");
 		}
 	}

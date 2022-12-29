@@ -29,6 +29,11 @@ public class AddMemberController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/home");
 			return;
 		}
+		
+		String msg = request.getParameter("msg");
+		
+		session.setAttribute("msg", msg);
+		
 		request.getRequestDispatcher("/WEB-INF/view/member/addMember.jsp").forward(request, response);
 	}
 
@@ -38,10 +43,17 @@ public class AddMemberController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String memberId = request.getParameter("memberId");
 		String memberPw = request.getParameter("memberPw");
+		String memberPwCk = request.getParameter("memberPwCk");
 		String memberName = request.getParameter("memberName");
 		// System.out.println(memberId);
 		// System.out.println(memberPw);
+		// System.out.println(memberPwCk);
 		// System.out.println(memberName);
+		
+		if(!memberPw.equals(memberPwCk)) {
+			String msg = URLEncoder.encode("비밀번호가 다릅니다.", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/addMember?msg="+msg);
+		}
 		
 		// 메서드 호출시 매개변수
 		Member member = new Member();
@@ -51,10 +63,21 @@ public class AddMemberController extends HttpServlet {
 		
 		// 메서드 호출
 		this.memberService = new MemberService();
-		int row = memberService.insertMember(member);
+		boolean result = memberService.memberCk(memberId);
+		boolean result2 = memberService.memberNameCk(memberName);
 		
-		String msg = URLEncoder.encode("회원가입 완료", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/member/login?msg="+msg);
+		if(result == true) {
+			String msg = URLEncoder.encode("아이디 중복", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/addMember?msg="+msg);
+		} else if(result2 == true) {
+			String msg = URLEncoder.encode("닉네임 중복", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/addMember?msg="+msg);
+		} else {
+			int row = memberService.insertMember(member);
+			String msg = URLEncoder.encode("회원가입 완료", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/login?msg="+msg);
+		}
+		
 	}
 
 }

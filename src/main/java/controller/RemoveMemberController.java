@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +31,10 @@ public class RemoveMemberController extends HttpServlet {
 			return;
 		}
 		
+		String msg= request.getParameter("msg");
+		
+		session.setAttribute("msg", msg);
+		
 		// 로그인정보 보내주기
 		request.setAttribute("loginMember", loginMember);
 		
@@ -56,9 +61,9 @@ public class RemoveMemberController extends HttpServlet {
 		if(row == 1) {
 			System.out.println("회원탈퇴완료");
 			response.sendRedirect(request.getContextPath()+"/member/logout");
-		} else {
-			System.out.println("회원탈퇴실패");
-			response.sendRedirect(request.getContextPath()+"/member/removeMember");
+		} else if(row != 1) {
+			String msg = URLEncoder.encode("비밀번호를 확인하세요", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/removeMember?msg="+msg);
 		}
 	}
 

@@ -61,7 +61,7 @@ public class LoginController extends HttpServlet {
 		
 		// 로그인 실패시 문구 출력
 		if(returnMember == null) {
-			String msg = URLEncoder.encode("로그인 실패", "utf-8");
+			String msg = URLEncoder.encode("회원정보가 틀려서 로그인에 실패했습니다, 아이디나 비밀번호를 확인해주세요.", "utf-8");
 			response.sendRedirect(request.getContextPath()+"/member/login?msg="+msg);
 			return;
 		}

@@ -190,7 +190,7 @@ public class MemberService {
 	}
 	
 	// 비밀번호 수정 modifyMemberPw
-	public int updateMemberPw(String updatePw, Member member) {
+	public int updateMemberPw(String updatePw, String memberId, String memberPw) {
 		// dao초기화&공간확보
 		memberDao = new MemberDao();
 		// 객체초기화
@@ -204,7 +204,7 @@ public class MemberService {
 			// 커밋끄기
 			conn.setAutoCommit(false);
 			// dao호출
-			row = memberDao.updateMemberPw(conn, updatePw, member);
+			row = memberDao.updateMemberPw(conn, updatePw, memberId, memberPw);
 			// 커밋
 			conn.commit();
 		} catch(Exception e) {
@@ -263,9 +263,129 @@ public class MemberService {
 		return row;
 	}
 	
+	// 아이디 중복 AddMemberController.java
+	public Boolean memberCk(String memberId) {
+		// dao 초기화&공간확보
+		memberDao = new MemberDao();
+		// 객체 초기화
+		boolean result = false;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 커밋끄기
+			conn.setAutoCommit(result);
+			// dao 호출
+			result = memberDao.memberCk(conn, memberId);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
+	// 닉네임 중복 AddMemberController.java
+		public Boolean memberNameCk(String memberName) {
+			// dao 초기화&공간확보
+			memberDao = new MemberDao();
+			// 객체 초기화
+			boolean result = false;
+			// 드라이버 초기화
+			Connection conn = null;
+			
+			try {
+				// 드라이버 연결
+				conn = DBUtil.getConnection();
+				// 커밋끄기
+				conn.setAutoCommit(result);
+				// dao 호출
+				result = memberDao.memberNameCk(conn, memberName);
+				// 커밋
+				conn.commit();
+			} catch(Exception e) {
+				e.printStackTrace();
+			} finally {
+				// 자원반납
+				try {
+					conn.close();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+		}
+		
+	// 닉네임 중복 AddMemberController.java
+	public Boolean updateMemberNameCk(String memberName) {
+		// dao 초기화&공간확보
+		memberDao = new MemberDao();
+		// 객체 초기화
+		boolean result = false;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 커밋끄기
+			conn.setAutoCommit(result);
+			// dao 호출
+			result = memberDao.updateMemberNameCk(conn, memberName);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
-	
+	// 비밀번호 변경시 중복 방지
+	public Boolean updatePwCk(String memberId, String memberPw) {
+		// dao 초기화&공간확보
+		memberDao = new MemberDao();
+		// 객체 초기화
+		boolean result = false;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 커밋끄기
+			conn.setAutoCommit(result);
+			// dao 호출
+			result = memberDao.updatePwCk(conn, memberId, memberPw);
+			// 커밋
+			conn.commit();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
+	}
 	
 	
 	

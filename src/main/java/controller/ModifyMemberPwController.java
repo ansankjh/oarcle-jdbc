@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +28,11 @@ public class ModifyMemberPwController extends HttpServlet {
 			response.sendRedirect(request.getContextPath()+"/member/login");
 			return;
 		}
+		
+		String msg = request.getParameter("msg");
+		
+		session.setAttribute("msg", msg);
+		
 		// 로그인정보 보내기
 		request.setAttribute("loginMember", loginMember);
 		request.getRequestDispatcher("/WEB-INF/view/member/modifyMemberPw.jsp").forward(request, response);
@@ -42,22 +48,22 @@ public class ModifyMemberPwController extends HttpServlet {
 		// System.out.println(updatePw);
 		// System.out.println(memberPw);
 		
-		// 메서드 호출할 매개변수
-		Member member = new Member();
-		member.setMemberId(memberId);
-		member.setMemberPw(memberPw);
+		if(updatePw.equals(memberPw)) {
+			String msg = URLEncoder.encode("기존 비밀번호와 동일합니다.", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/modifyMemberPw?msg="+msg);
+			return;
+		} 
 		
 		// 메서드 호출
 		this.memberService = new MemberService();
-		int row = memberService.updateMemberPw(updatePw, member);
+		int row = memberService.updateMemberPw(updatePw, memberId, memberPw);
 		
 		if(row == 1) {
-			System.out.println("비밀번호수정완료");
-			response.sendRedirect(request.getContextPath()+"/member/memberOne");
-		} else {
-			System.out.println("비밀번호수정실패");
-			response.sendRedirect(request.getContextPath()+"/member/modifyMemberPw");
+			System.out.println("비밀번호변경");
+			response.sendRedirect(request.getContextPath()+"/member/logout");
+		} else if(row != 1) {
+			String msg = URLEncoder.encode("기존 비밀번호를 확인해주세요.", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/member/modifyMemberPw?msg="+msg);
 		}
 	}
-
 }

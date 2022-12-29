@@ -4,8 +4,44 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<style>
+			div {
+				align : center;
+				text-align : center;
+			}
+			
+			.po0 {
+				position : relative;
+				top : -10px;
+				left : 1415px;
+			}
+			
+			.po1 {
+				position : relative;
+				top : -30px;
+				left : 1350px;
+			}
+			
+			.po2 {
+				position : relative;
+				top : -30px;
+				left : 1350px;
+			}
+		</style>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
 		<title>memberList</title>
+		<!-- Favicon-->
+		<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+		<!-- Font Awesome icons (free version)-->
+		<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+		<!-- Google fonts-->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+		<!-- Core theme CSS (includes Bootstrap)-->
+		<link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
@@ -17,9 +53,29 @@
 		</script>
 	</head>
 	<body>
-		<h1>멤버 이름 목록(페이징)</h1>
+		<!-- Navigation-->
+		<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+			<div class="container">
+				<a class="navbar-brand" href="${pageContext.request.contextPath}/home">HOME</a>
+				<button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+					Menu
+					<i class="fas fa-bars"></i>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarResponsive">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item mx-0 mx-lg-1"><span class="nav-link py-3 px-0 px-lg-3 rounded">${loginMember.memberId}님</span></li>
+						<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/board/boardList">게시판</a></li>
+						<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/memberOne">내 정보</a></li>
+						<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/logout" id='logout'>로그아웃</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<h1 class="page-section-heading text-center text-uppercase text-secondary mb-0" style="margin-top:150px;">
+			<a href="${pageContext.request.contextPath}/member/memberList" style="text-decoration-line : none;">회원 목록</a>
+		</h1>
 		<form action="${pageContext.request.contextPath}/member/memberList" method="get" id="pageForm">
-			<select name="rowPerPage" id="rowPerPage">
+			<select class="po0" name="rowPerPage" id="rowPerPage">
 				<c:if test="${rowPerPage == 10}">
 					<option value="10" selected="selected">10</option>
 					<option value="20">20</option>
@@ -37,20 +93,24 @@
 				</c:if>
 			</select>
 		</form>
-		<table border="1">
-			<tr>
-				<th>memberName</th>
-				<th>createdate</th>
-			</tr>
-			<c:forEach var="m" items="${memberList}">
+		<div>
+			<table class="table table-bordered" style="width:1000px;" align="center">
 				<tr>
-					<td>${m.memberName}</td>
-					<td>${m.createdate}</td>
+					<th>memberName</th>
+					<th>createdate</th>
 				</tr>
-			</c:forEach>
-		</table>
-		<a href="${pageContext.request.contextPath}/member/memberList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
-		<a href="${pageContext.request.contextPath}/member/memberList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
-		<a href="${pageContext.request.contextPath}/home">뒤로</a>
+				<c:forEach var="m" items="${memberList}">
+					<tr>
+						<td>${m.memberName}</td>
+						<td>${m.createdate}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+		<div>
+			<a href="${pageContext.request.contextPath}/member/memberList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}" style="text-decoration-line : none;"><-이전</a>
+			${currentPage}
+			<a href="${pageContext.request.contextPath}/member/memberList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}" style="text-decoration-line : none;">다음-></a>
+		</div>
 	</body>
 </html>
