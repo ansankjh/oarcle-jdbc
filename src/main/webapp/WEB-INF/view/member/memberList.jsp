@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<h1>멤버 이름 목록(페이징)</h1>
-		<form action="${pageContext.request.contextPath}/MemberListController" method="get">
+		<form action="${pageContext.request.contextPath}/member/memberList" method="get" id="pageForm">
 			<select name="rowPerPage" id="rowPerPage">
 				<c:if test="${rowPerPage == 10}">
 					<option value="10" selected="selected">10</option>
@@ -49,8 +49,8 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="${pageContext.request.contextPath}/MemberListController?currentPage=${currentPage-1}&rowPerPage=${rowPerPage}">이전</a>
-		<a href="${pageContext.request.contextPath}/MemberListController?currentPage=${currentPage+1}&rowPerPage=${rowPerPage}">다음</a>
+		<a href="${pageContext.request.contextPath}/member/memberList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}">이전</a>
+		<a href="${pageContext.request.contextPath}/member/memberList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}">다음</a>
 		<a href="${pageContext.request.contextPath}/home">뒤로</a>
 	</body>
 </html>

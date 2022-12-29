@@ -20,17 +20,24 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script>
         	$(document).ready(function() {
-        		$('#logout').click(function() {
-        			alert('로그아웃 됐습니다.');
-        		});
+        		// 로그아웃 클릭시 로그아웃 할건지 묻는창 띄우기 
+				$("#logout").click(function(){
+					var result = confirm("로그아웃 하시겠습니까?");
+					if(result == true) {
+						alert('로그아웃');
+					} else {
+						alert('로그아웃취소');
+						return false;
+					}
+				});
         	});
         </script>
 	</head>
 	<body id="page-top">
-	<!-- Navigation-->
+		<!-- Navigation-->
         <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
             <div class="container">
-                <a class="navbar-brand" href="#page-top">게시판</a>
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/home">HOME</a>
                 <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars"></i>
@@ -42,9 +49,9 @@
 							<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/login">로그인</a></li>
 						</c:if>
 						<c:if test="${loginMember != null}">
-								<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/board/boardList">게시글목록</a></li>
-								<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/memberList">회원목록</a></li>
-								<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/memberOne">회원정보</a></li>
+								<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/board/boardList">게시판</a></li>
+								<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/memberList">회원게시판</a></li>
+								<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/memberOne">내 정보</a></li>
 								<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="${pageContext.request.contextPath}/member/logout" id='logout'>로그아웃</a></li>
 						</c:if>
                     </ul>

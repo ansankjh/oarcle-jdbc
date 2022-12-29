@@ -37,7 +37,7 @@ public class MemberListController extends HttpServlet {
 		int rowPerPage = 10;
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
-			// System.out.println(rowPerPage);
+			System.out.println(rowPerPage);
 		}
 		
 		

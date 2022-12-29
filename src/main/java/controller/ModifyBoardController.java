@@ -42,11 +42,6 @@ public class ModifyBoardController extends HttpServlet {
 		request.setAttribute("board", board);
 		request.setAttribute("loginMember", loginMember);
 		
-		if(memberId != loginMember.getMemberId()) {
-			String msg = URLEncoder.encode("게시글의 주인이 아닙니다.", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/board/boardList?msg="+msg);
-			return;
-		}
 		
 		request.getRequestDispatcher("/WEB-INF/view/board/modifyBoard.jsp").forward(request, response);
 	}

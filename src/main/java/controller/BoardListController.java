@@ -35,6 +35,7 @@ public class BoardListController extends HttpServlet {
 		int rowPerPage = 10; // rowPerPage는 안넘어오면 10이다
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+			System.out.println(rowPerPage);
 		}
 		
 		this.boardService = new BoardService();
