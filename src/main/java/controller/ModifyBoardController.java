@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +31,8 @@ public class ModifyBoardController extends HttpServlet {
 		}
 		
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+		String memberId = request.getParameter("memberId");
+		// System.out.println(memberId);
 		// System.out.println(boardNo);
 		
 		// 메서드 호출
@@ -38,12 +42,19 @@ public class ModifyBoardController extends HttpServlet {
 		request.setAttribute("board", board);
 		request.setAttribute("loginMember", loginMember);
 		
+		if(memberId != loginMember.getMemberId()) {
+			String msg = URLEncoder.encode("게시글의 주인이 아닙니다.", "utf-8");
+			response.sendRedirect(request.getContextPath()+"/board/boardList?msg="+msg);
+			return;
+		}
 		
-		request.getRequestDispatcher("/WEB-INF/view//board/modifyBoard.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/view/board/modifyBoard.jsp").forward(request, response);
 	}
 
 	// modifyBoardAction
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Member loginMember = (Member)session.getAttribute("loginMember");
 		request.setCharacterEncoding("utf-8");
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 		String boardTitle = request.getParameter("boardTitle");

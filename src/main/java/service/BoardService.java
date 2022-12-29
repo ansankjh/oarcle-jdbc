@@ -92,7 +92,7 @@ public class BoardService {
 				// 오토커밋끄기
 				conn.setAutoCommit(false);
 				// 메서드 호출
-				board = boardDao.selectBoardOne(conn, boardNo);
+				board = boardDao.selectBoardByModify(conn, boardNo);
 				// 커밋
 				conn.commit();
 			} catch(Exception e) {

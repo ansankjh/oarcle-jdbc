@@ -71,7 +71,7 @@ public class BoardDao {
 	public Board selectBoardOne(Connection conn, int boardNo) throws Exception {
 		Board board = null;
 		// 쿼리문 작성
-		String sql = "SELECT board_no boardNo, board_title boardTitle, board_content boardContent FROM board WHERE board_no = ?";
+		String sql = "SELECT board_no boardNo, board_title boardTitle, board_content boardContent, member_id memberId FROM board WHERE board_no = ?";
 		// 쿼리 객체 생성
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		// 쿼리문 ?값 지정
@@ -83,6 +83,7 @@ public class BoardDao {
 			board.setBoardNo(rs.getInt("boardNo"));
 			board.setBoardTitle(rs.getString("boardTitle"));
 			board.setBoardContent(rs.getString("boardContent"));
+			board.setMemberId(rs.getString("memberId"));
 		}
 		return board;
 	}
