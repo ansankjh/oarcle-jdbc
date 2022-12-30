@@ -89,7 +89,7 @@
 			<div>
 				<label for="word">내용 검색</label>
 				<input type="text" name="word" id="word" value="${word}"> <!-- value에 word를 입력하여 a태그로 보낸 word값을 출력한다(다음페이지에도 word값 자동출력) -->
-				<button type="submit">검색</button>
+				<button type="submit">검색 : </button>
 			</div>
 			<select class="po0" name="rowPerPage" id="rowPerPage">
 				<c:if test="${rowPerPage == 10}">
@@ -128,18 +128,37 @@
 			</table>
 		</div>
 		<div>
-			<c:if test="${word == ''}">
+			<!-- 페이지 표시 -->
+			
+			<!-- 페이징 -->
+			<!-- 처음 페이지로 돌아가기 버튼이 있으려면 현재 페이지가 2페이지일때부터 -->
+			<c:if test="${currentPage > 1 && word == ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=1" style="text-decoration-line : none;">처음</a>
+			</c:if>
+			<c:if test="${currentPage > 1 && word != ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=1&word=${word}" style="text-decoration-line : none;">처음</a>
+			</c:if>
+			<!-- currentPage가 1보다 작으면 이전버튼은 없어야한다  -->
+			<c:if test="${currentPage > 1 && word == ''}">
 				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}" style="text-decoration-line : none;"><-이전</a>
 			</c:if>
-			<c:if test="${word != ''}">
+			<c:if test="${currentPage > 1 && word != ''}">
 				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage-1}&word=${word}" style="text-decoration-line : none;"><-이전</a>
 			</c:if>
 			${currentPage}
-			<c:if test="${word == ''}">
+			<!-- currentPage가 lastPage보다 작으면 -->
+			<c:if test="${currentPage < lastPage && word == ''}">
 				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}" style="text-decoration-line : none;">다음-></a>
 			</c:if>
-			<c:if test="${word != ''}">
+			<c:if test="${currentPage < lastPage && word != ''}">
 				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${currentPage+1}&word=${word}" style="text-decoration-line : none;">다음-></a>
+			</c:if>
+			<!-- lastPage -->
+			<c:if test="${currentPage != lastPage && word == ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${lastPage}" style="text-decoration-line : none;">마지막</a>
+			</c:if>
+			<c:if test="${currentPage != lastPage && word != ''}">
+				<a href="${pageContext.request.contextPath}/board/boardList?rowPerPage=${rowPerPage}&currentPage=${lastPage}&word=${word}" style="text-decoration-line : none;">마지막</a>
 			</c:if>
 		</div>
 		<a class="po1 btn btn-info" href="${pageContext.request.contextPath}/board/addBoard" style="text-decoration-line : none;">게시글 입력</a>

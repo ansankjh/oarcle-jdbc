@@ -8,6 +8,41 @@ import java.util.ArrayList;
 import vo.Board;
 
 public class BoardDao {
+	
+	// boardList 총 행의수 BoardListController.java
+	public int selectCount(Connection conn, String word) throws Exception {
+		// 객체 초기화
+		int row = 0;
+		// 쿼리문 초기화
+		String sql = null;
+		// 객체 초기화
+		PreparedStatement stmt = null;
+		// 쿼리문&쿼리객체 생성
+		if(word == null) {
+			// 검색어 없을때
+			// 쿼리문 작성
+			sql = "SELECT COUNT(*) cnt FROM board";
+			// 객체 생성
+			stmt = conn.prepareStatement(sql);
+		} else if(word != null) {
+			// 검색어가 있을때
+			// 쿼리문 작성
+			sql = "SELECT COUNT(*) cnt FROM board WHERE board_content like ?";
+			// 객체 생성
+			stmt = conn.prepareStatement(sql);
+			// 쿼리문 ?값 지정
+			stmt.setString(1, "%"+word+"%");
+		}
+		// 쿼리 실행
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = rs.getInt("cnt");
+		}
+		
+		stmt.close();
+		rs.close();
+		return row;
+	}
 	// 나중에 검색 추가
 	// SELECT board_no boardNo, board_title boardTitle FROM board WHERE board_content LIKE ? ORDER BY board_no ASC LIMIT ?, ?";
 	public ArrayList<Board> selectBoardListByPage(Connection conn, String word, int beginRow, int endRow) throws Exception {

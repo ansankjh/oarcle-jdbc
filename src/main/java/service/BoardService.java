@@ -4,11 +4,42 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import dao.BoardDao;
+import dao.MemberDao;
 import util.DBUtil;
 import vo.Board;
 
 public class BoardService {
 	private BoardDao boardDao;
+	
+	// boardList 총 행의수 BoardListController.java
+	public int selectCount(String word) {
+		// dao초기화&공간확보
+		boardDao = new BoardDao();
+		// 객체 초기화
+		int row = 0;
+		// 드라이버 초기화
+		Connection conn = null;
+		
+		try {
+			// 드라이버 연결
+			conn = DBUtil.getConnection();
+			// 오토커밋끄기
+			conn.setAutoCommit(false);
+			// dao호출
+			row = boardDao.selectCount(conn, word);
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			// 자원반납
+			try {
+				conn.close();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return row;
+	}
 	
 	public ArrayList<Board> getBoardListByPage(String word, int currentPage, int rowPerPage) { // 
 		/*
@@ -23,7 +54,11 @@ public class BoardService {
 		Connection conn = null;
 		int beginRow = (currentPage - 1) * rowPerPage + 1;
 		int endRow = beginRow + rowPerPage - 1;
-		
+		// System.out.println(beginRow +"<- beginRow");
+		// System.out.println(endRow + "<- endRow");
+		// System.out.println(currentPage + "<- currentPage");
+		// System.out.println(endRow / currentPage + "<- endRow/currentPage 나눈 몫");
+		// System.out.println(endRow % currentPage + "<- endRow/currentPage 나눈 나머지");
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);

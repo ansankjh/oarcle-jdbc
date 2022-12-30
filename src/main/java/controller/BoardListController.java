@@ -35,15 +35,19 @@ public class BoardListController extends HttpServlet {
 		int rowPerPage = 10; // rowPerPage는 안넘어오면 10이다
 		if(request.getParameter("rowPerPage") != null) {
 			rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
-			System.out.println(rowPerPage);
+			// System.out.println(rowPerPage);
 		}
 		
 		this.boardService = new BoardService();
 		ArrayList<Board> list = boardService.getBoardListByPage(word, currentPage, rowPerPage);
+		// 마지막 페이지
+		int lastPage = boardService.selectCount(word) / rowPerPage;
+		// System.out.println(lastPage + "<-- 마지막페이지");
 		request.setAttribute("boardList", list);
 		request.setAttribute("currentPage", currentPage); // view에서 필요
 		request.setAttribute("rowPerPage", rowPerPage); // view에서 필요
 		request.setAttribute("loginMember", loginMember);
+		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("msg", msg);
 		request.setAttribute("word", word);
 		
